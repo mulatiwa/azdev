@@ -1,2 +1,5 @@
 node_modules/
-server/
+.env
+utils.js
+numbers-in-range.js
+graphql.config.js
