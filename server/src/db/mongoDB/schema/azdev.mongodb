@@ -3,14 +3,17 @@ use azdev;
 db.createCollection('approachDetails', {
   validator:
   {
-    bsonType: 'object',
-    required: ['pgId'],
-    properties:
+    $jsonSchema:
     {
-      pgId:
+      bsonType: 'object',
+      required: ['pgId'],
+      properties:
       {
-        bsonType: 'int',
-        description: 'must be an integer and is required'
+        pgId:
+        {
+          bsonType: 'int',
+          description: 'must be an integer and is required'
+        }
       }
     }
   }

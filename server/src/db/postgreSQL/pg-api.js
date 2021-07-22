@@ -1,24 +1,44 @@
-import pgClient from "./pg-client.js";
-import pgQueries from './queries/queries.js';
+import pgClient from './pg-client.js';
+import sqls from './queries/sqlQueries.js';
 
-export default async function pgAPIWrapper()
+export default async function pgAPIWrapper() 
 {
-  const  { pgPool } = await pgClient();
-
+  const { pgPool } = await pgClient();
   const pgQuery = (text, params = {}) => pgPool.query(text, Object.values(params));
 
-  return {
-    taskMainList: async () =>{
-      const pgResp = await pgQuery(pgQueries.tasksLatest);
-      return pgResp.rows;
+  return{
+    tasksByTypes: async types =>{
+      const results = types.map(async type =>
+        {
+          if (type === 'latest') 
+          {
+            const pgResp = await pgQuery(sqls.tasksLatest);
+            return pgResp.rows;
+          }
+          throw Error('Unsupported type');
+        });
+        return Promise.all(results);     
     },
-    userInfo: async userID =>{
-      const pgResp = await pgQuery(pgQueries.usersFromIds, { $1: [userID] });
-      return pgResp.rows[0];
+    usersInfo: async userIds =>{
+      const pgResp = await pgQuery(sqls.usersFromIds, { $1: userIds });
+      return userIds.map(userId => pgResp.rows.find(row => userId === row.id));
     },
-    approachList: async taskID =>{
-      const pgResp = await pgQuery(pgQueries.approachesForTaskIds, { $1: [taskID]});
-      return pgResp.rows;
+    approachLists: async taskIds =>{
+      const pgResp = await pgQuery(sqls.approachesForTaskIds, { $1: taskIds});
+      return taskIds.map(tasksId => pgResp.rows.filter(row => tasksId === row.tasksId));
+    },
+    tasksInfo: async taskIds =>{
+      const pgResp = await pgQuery(sqls.tasksFromIds, { $1: taskIds, $2: null });
+      return taskIds.map(taskId => pgResp.rows.find(row => taskId == row.id));
+    },
+    searchResults: async searchTerms =>{
+      const results = searchTerms.map(async searchTerm =>
+        {
+          const pgResp = await pgQuery(sqls.searchResults, { $1: searchTerm, $2: null, });
+          return pgResp.rows;
+        });
+        return Promise.all(results);
     }
   }
+    
 }

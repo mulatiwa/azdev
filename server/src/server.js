@@ -2,6 +2,8 @@
 //Middleware
 import bodyParser from 'body-parser'; //  Body Parser
 import cors from 'cors'; //  CORS
+//  DataLoader
+import DataLoader from 'dataloader';
 //Express
 import express from 'express';
 //GraphQL
@@ -14,18 +16,26 @@ import config from '../webpack.dev.js';
 import { host, isDev, port } from './config/server-config.js';
 //Schema
 import { schema } from './data-api/schema/index.js';
+import mongoAPIWrapper from './db/mongoDB/mongo-api.js';
 import pgAPIWrapper from './db/postgreSQL/pg-api.js';
+
+
 const compiler = webpack(config);
 const { graphqlHTTP } = graphql;
 
 /* ****************************   APP   ****************************  */
 
-const app = express();//  Express Server
-
-const server = async () =>
+async function server()
 { 
+  const app = express();//  Express Server  
   const pgAPI = await pgAPIWrapper();
+  const mongoAPI = await mongoAPIWrapper();
+
   //  Express Middleware
+  app.use(cors());
+  app.use(morgan('dev'));
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
       // Tell express to use the webpack-dev-middleware and use the webpack.config.js configuration file as a base.
   app.use(
     webpackDevMiddleware(compiler,
@@ -35,29 +45,43 @@ const server = async () =>
     )
   );
   // server.use(morgan(morganString));
-  
 
-  app.use('/', graphqlHTTP(
+  app.use('/graphql', (req, res) =>
+  {
+    const loaders =
     {
-      schema,
-      context: {pgAPI},
-      graphiql: true,
-      customFormatErrorFn: err =>{
-        const errorReport =
-        {
-          message: err.message,
-          locations: err.locations,
-          stack: err.stack ? err.stack.split('\n') : [],
-          path:  err.path,
-        };
-        console.error('GraphQL Error', errorReport);
-        return isDev ? errorReport : { message: 'Oops! Something went wrong! :(' }
-      }
-    }
-  ));
+      users: new DataLoader(userIds => pgAPI.usersInfo(userIds)),
+      approachLists: new DataLoader(taskIds => pgAPI.approachLists(taskIds)),
+      tasks: new DataLoader(taskIds => pgAPI.tasksInfo(taskIds)),
+      tasksByTypes: new DataLoader(types => pgAPI.tasksByTypes(types)),
+      searchResults: new DataLoader(searchTerms => pgAPI.searchResults(searchTerms)),
+      detailLists: new DataLoader(approachIds => mongoAPI.detailLists(approachIds)),
+    };
+
+    graphqlHTTP(
+      {
+        schema,
+        context: { loaders },
+        graphiql: { defaultQuery: true, headerEditorEnabled: true },
+        pretty: true,
+        customFormatErrorFn: err =>{
+          const errorReport =
+          {
+            message: err.message,
+            locations: err.locations,
+            stack: err.stack ? err.stack.split('\n') : [],
+            path: err.path,
+          };
+
+          console.error('GraphQL Error', errorReport);
+          
+           return isDev ? errorReport :{ message: 'Oops! Something went wrong! :(' }
+        },
+      })(req, res);
+  });
 
       // Serve the files on the following URI
-  app.listen(port,  () => console.log(`App URI:  http://${host}:${port}/`));
+  app.listen(port,  () => console.log(`App URI:  http://${host}:${port}/graphql`));
 
 }
 

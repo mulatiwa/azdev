@@ -4,16 +4,17 @@ const  { GraphQLID, GraphQLNonNull, GraphQLString, GraphQLObjectType } = graphql
 const User = new GraphQLObjectType(
   {
     name: 'User',
-    fields:
-    {
-      id: { type: new GraphQLNonNull(GraphQLID) },
-      username: {type: GraphQLString },
-      name:
+    fields: () =>(
       {
-        type: new GraphQLNonNull(GraphQLString),
-        resolve: ({ firstName, lastName }) => [firstName, lastName].filter(Boolean).join(' '),
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        username: {type: GraphQLString },
+        name:
+        {
+          type: new GraphQLNonNull(GraphQLString),
+          resolve:({ firstName, lastName }) => [firstName, lastName].filter(Boolean).join(' ') 
+        }
       }
-    }
+    )
   }
 );
 
