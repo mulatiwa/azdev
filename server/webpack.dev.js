@@ -1,22 +1,18 @@
 import path, { dirname, resolve } from 'path';
-import nodeExternals from 'webpack-node-externals';
-import output   from 'webpack-merge';
-const {merge} = output
-import webpack from 'webpack';
-import common from './webpack.config.js';
-
 import { fileURLToPath } from 'url';
+import webpack from 'webpack';
+import output from 'webpack-merge';
+import nodeExternals from 'webpack-node-externals';
+import common from './webpack.config.js';
+const {merge} = output
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default merge(common,
 {
-  mode: 'development',/*
-  (1) "production" | "development" | "none"
-  (2) Chosen mode tells webpack to use its built-in optimizations accordingly.
-  */
-
+  mode: 'development',
   externals:
   [
     nodeExternals()

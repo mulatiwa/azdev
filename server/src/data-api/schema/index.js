@@ -2,6 +2,7 @@
 import graphql from 'graphql';
 //  Query Types
 import QueryType from './gqlQueries.js';
+import MutationType from './types/mutations.js';
 //  Types
 const { GraphQLSchema  } = graphql;
 
@@ -10,6 +11,7 @@ const { GraphQLSchema  } = graphql;
 export const schema = new GraphQLSchema(
   {
     query: QueryType,
+    mutation: MutationType,
   }
 );
 

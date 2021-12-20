@@ -2,6 +2,7 @@
 import graphql from 'graphql';
 import SearchResultItem from './types/search-result-item.js';
 import Task from './types/task.js';
+import User, { Viewer } from './types/user.js';
 //  Types
 const { GraphQLObjectType, GraphQLID, GraphQLString ,GraphQLList, GraphQLNonNull } = graphql;
 
@@ -37,6 +38,11 @@ const QueryType = new GraphQLObjectType(
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(SearchResultItem))),
           args: { term: { type: new GraphQLNonNull(GraphQLString) } },
           resolve: async (source, { term }, { loaders }) => loaders.searchResults.load(term),
+        },
+        viewer:
+        {
+          type: Viewer,
+          resolve: async (source, args, { currentUser }) => currentUser,
         }
       }
     )

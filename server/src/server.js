@@ -46,23 +46,39 @@ async function server()
   );
   // server.use(morgan(morganString));
 
-  app.use('/graphql', (req, res) =>
+  app.use('/graphql', async (req, res) =>
   {
+    const authToken = (req && req.headers && req.headers.authorization) ? req.headers.authorization.slice(7) : null;
+
+    const currentUser = await pgAPI.userFromAuthToken(authToken);
+
+    if (authToken && !currentUser) 
+    {
+      return res.status(401).send(
+        {
+          errors: [{ message: 'Invalid access token' }],
+        }
+      )
+    }
+    
     const loaders =
     {
       users: new DataLoader(userIds => pgAPI.usersInfo(userIds)),
       approachLists: new DataLoader(taskIds => pgAPI.approachLists(taskIds)),
-      tasks: new DataLoader(taskIds => pgAPI.tasksInfo(taskIds)),
+      tasks: new DataLoader(taskIds => pgAPI.tasksInfo({ taskIds, currentUser })),
       tasksByTypes: new DataLoader(types => pgAPI.tasksByTypes(types)),
-      searchResults: new DataLoader(searchTerms => pgAPI.searchResults(searchTerms)),
+      searchResults: new DataLoader(searchTerms => pgAPI.searchResults({ searchTerms, currentUser })),
       detailLists: new DataLoader(approachIds => mongoAPI.detailLists(approachIds)),
+      tasksForUsers: new DataLoader(userIds => pgAPI.tasksForUsers(userIds))
     };
+
+    const mutators = { ...pgAPI.mutators, ...mongoAPI.mutators }
 
     graphqlHTTP(
       {
         schema,
-        context: { loaders },
-        graphiql: { defaultQuery: true, headerEditorEnabled: true },
+        context: { loaders, mutators, currentUser },
+        graphiql: { headerEditorEnabled: true },
         pretty: true,
         customFormatErrorFn: err =>{
           const errorReport =

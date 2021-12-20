@@ -6,9 +6,9 @@ const ApproachDetailCategory = new GraphQLEnumType(
     name: 'ApproachDetailCategory',
     values:
     {
-      NOTE: {},
-      EXPLANATION: {},
-      WARNING: {},
+      NOTE: { value: 'notes' },
+      EXPLANATION: {value: 'explanations' },
+      WARNING:  { value: 'warnings' },
     }
   }
 );

@@ -80,7 +80,7 @@ type Query{
   taskMainList: [Task!] # A list of non-null objects from the task model
   search(term: String!):  [SearchResultItem!]
   taskInfo(id:  ID!): Task
-  me: User
+  viewer: User
   # More query root fields
 }
 

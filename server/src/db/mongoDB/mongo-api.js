@@ -6,7 +6,7 @@ export default async function mongoAPIWrapper()
 
   const mdbFindDocumentsByField = async ({ collectionName, fieldName, fieldValues }) =>
   {
-    mdb
+   return mdb
       .collection(collectionName)
       .find({ [fieldName]: { $in: fieldValues }})
       .toArray();
@@ -41,7 +41,7 @@ export default async function mongoAPIWrapper()
               ...explanations.map(explanationText => (
                 {
                   content: explanationText,
-                  category: 'EXPLANATION',
+                  category: 'explanations',
                 }
               ))
             )  
@@ -53,7 +53,7 @@ export default async function mongoAPIWrapper()
               ...notes.map(noteText => (
                 {
                   content: noteText,
-                  category: 'NOTE',
+                  category: 'notes',
                 }
               ))
             )  
@@ -65,13 +65,33 @@ export default async function mongoAPIWrapper()
               ...warnings.map(warningText => (
                 {
                   content: warningText,
-                  category: 'WARNING',
+                  category: 'warnings',
                 }
               ))
-            )  
+            );  
           }
+          return approachDetails;
 
         })
+    },
+    mutators:
+    {
+      approachDetailCreate: async (approachId, detailsInput) =>{
+        const details = { };
+
+        detailsInput.forEach(({ content, category }) => 
+        {
+          details[category] = details[category] || [];
+          details[category].push(content);
+        });
+
+        return mdb.collection('approachDetails').insertOne(
+          {
+            pgId: approachId,
+            ...details,
+          }
+        )
+      }
     }
   }
 }
