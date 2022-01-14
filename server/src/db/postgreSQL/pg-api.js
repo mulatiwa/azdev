@@ -26,7 +26,7 @@ export default async function pgAPIWrapper()
     },
     approachLists: async taskIds =>{
       const pgResp = await pgQuery(sqls.approachesForTaskIds, { $1: taskIds});
-      return taskIds.map(tasksId => pgResp.rows.filter(row => tasksId === row.tasksId));
+      return taskIds.map(taskId => pgResp.rows.filter(row => taskId === row.taskId))
     },
     tasksInfo: async ({ taskIds, currentUser }) =>{
       const pgResp = await pgQuery(sqls.tasksFromIds, 

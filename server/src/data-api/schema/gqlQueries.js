@@ -31,7 +31,7 @@ const QueryType = new GraphQLObjectType(
           {
             id: { type: new GraphQLNonNull(GraphQLID)},
           },
-          resolve: async (source, { id }, { loaders }) =>loaders.tasks.load(id),
+          resolve: async (source, args, { loaders }) =>loaders.tasks.load(args.id),
         },
         search:
         {

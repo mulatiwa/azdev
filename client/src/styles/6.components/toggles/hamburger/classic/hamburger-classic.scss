@@ -1,0 +1,54 @@
+/*
+Hamburger Menu - Classic
+
+Creates a classic Hamburger menu that changes the state of the dropdown menu when clicked, requires JavaScript for additional functionality (hamburger-menu-classic.js)
+
+Markup:
+<button type="button" name="menu" class="hamburger-classic" id="hamburger-classic">toggle menu</button>
+
+Weight: 1
+
+Styleguide Hamburger.classic hamburger
+*/
+.hamburger-classic
+{
+  position: absolute;
+  top: -0.3em;
+  left: -0.5em;
+
+  border: 0;
+  background-color: transparent;
+
+  font-size: 3em;
+  width: 1em;
+  height: 1em;
+  line-height: 0.4;
+  text-indent: 5em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.hamburger-classic::after
+{
+  position: absolute;
+  top: 0.2em;
+  left: 0.2em;
+  display: block;
+  content: '\2261';
+  text-indent: 0;
+  color: red;
+  cursor: pointer;
+}
+
+.menu.is-open .menu-dropdown
+{
+  display: block;
+}
+
+@media (min-width: 43.75em)
+{
+  .hamburger-classic
+  {
+    display: none;
+  }
+}

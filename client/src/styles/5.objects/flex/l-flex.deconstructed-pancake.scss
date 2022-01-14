@@ -1,0 +1,31 @@
+/*
+Deconstructed Pancake
+
+Creates a two column layout using flexbox.
+
+Markup:
+  <div className = "dcp-parent">
+      <div class="dcp-child"></div>
+      <div class="dcp-child"></div>
+      <div class="dcp-child"></div>
+    </div>
+
+
+Weight: 1
+
+Styleguide Utilities.Deconstructed Pancake
+*/
+
+.dcp-parent
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dcp-child
+{
+  /* flex: 1 1 150px; */  //stretching
+  /* flex: 0 1 150px; */  //no stretching
+  margin: 5px;
+}

@@ -1,0 +1,30 @@
+//Retina displays
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)
+{
+/* ********************* BASE RETINA DISPLAY STYLES ********************* */
+
+                        //COME HERE
+
+/* ********************* BREAKPOINTS ********************* */
+
+  @media (min-width: var(--w500px))
+  {
+  }
+
+  @media (min-width: var(--w600px))
+  {
+  }
+
+  @media (min-width: var(--w700px))
+  {
+  }
+
+  @media (min-width: var(--w800px))
+  {
+  }
+
+  @media (min-width: var(--w1080px))
+  {
+  }
+}

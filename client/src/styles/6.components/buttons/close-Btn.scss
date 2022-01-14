@@ -1,0 +1,34 @@
+.close
+{
+  cursor: pointer;
+  position: absolute;
+  top: 0.3em;
+  left: 0.3em;
+  padding: 0.3em;
+  font-size: 2em;
+  height: 1em;
+  width: 1em;
+  text-indent: 100em;
+  overflow: hidden;
+  border: 0;
+  background-color: black;
+  border-radius: 0.5em;
+}
+
+.close::after
+{
+  position: absolute;
+  line-height: 0.5;
+  top: 0.27em;
+  left: 0.1em;
+  right: 0.1em;
+  bottom: 0.2em;
+  text-indent: 0;
+  content: "\00D7";
+  color: white;
+}
+
+.close::after:focus
+{
+  outline: none;
+}

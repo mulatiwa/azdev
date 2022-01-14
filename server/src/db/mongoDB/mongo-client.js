@@ -16,22 +16,38 @@ export default async  () =>
   try
   {
     // Connecting to client
-    await mongoClient.connect();// Connect the mongo client to the server    
-    
-    const mdb = mongoClient.db();
-    
+    await mongoClient.connect();// Connect the mongo client to the server        
+    const mdb = mongoClient.db();    
     // Test the connection
     await mongoClient.db("admin").command({ ping: 1 });// Establish and verify connection
-    const collections = await mdb.collections();
+    //  Count the number of Collections in all dbs
+    const collections = await mdb.collections();//  Collections Object
     console.log(` Connected successfully to the MongoDB Server | Collections count:
     ${collections.length} `
     );
+/*       //  Schema Validation
+    const schema = {
+      validator:
+      {
+        $jsonSchema:
+        {
+          bsonType: 'object',
+          required: ['pgId'],
+          properties:
+          {
+            pgId:
+            {
+              bsonType: 'int',
+              description: 'must be an integer and is required'
+            }
+          }
+        }
+      }
+    };
 
-/*     // Connecting to database
-    const db = mongoClient.db(dbName);//database
-    const collection = db.collection(collectionName);//collection
-
-    
+    // Connecting to database
+    const db = await mongoClient.db(dbName);//database
+    const collection = await db.createCollection(collectionName, schema);//collection    
     //  Inserting Documents
       // this option prevents additional documents from being inserted if one fails
     const options = { ordered: true };    

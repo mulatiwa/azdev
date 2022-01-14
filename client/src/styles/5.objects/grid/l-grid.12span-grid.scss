@@ -1,0 +1,31 @@
+/*
+12 Span Grid
+
+Creates a two column layout using grid.
+
+Markup:
+<div class="sg"-container>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+  <div class="sg-children"></div>
+</div>
+
+Weight: 1
+
+Styleguide Utilities.12 Span GRid
+*/
+
+.sg-container
+{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}

@@ -1,0 +1,16 @@
+.btn--Flat-Design
+{
+  box-shadow: 0 0.2em 0.2em hsla(0, 0%, 0%, 0.15);
+  padding: 1em;
+  background-color: #57b;
+}
+
+.btn--Flat-Design:hover
+{
+  background-color: #456ab6;
+}
+
+.btn--Flat-Design:active
+{
+  background-color: #148;
+}

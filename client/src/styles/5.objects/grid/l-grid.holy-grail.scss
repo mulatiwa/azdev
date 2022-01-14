@@ -1,0 +1,49 @@
+/*
+Holly grail (Grid)
+
+Creates a two column layout using grid.
+
+Markup:
+<div class="hl-container">
+  <header></header>
+  <aside></aside>  
+  <main></main>  
+  <aside></aside>  
+  <footer></footer>
+</div>
+
+Weight: 1
+
+Styleguide Utilities.Holly grail (Grid)
+*/
+
+.hl-container
+{
+  display: grid;
+  grid-template: auto 1fr auto / auto 1fr auto;
+}
+
+.hl-header
+{
+  grid-column: 1 / 4;
+}
+
+.hl-sidebar-left
+{
+  grid-column: 1 / 2;
+}
+
+.hl-main
+{
+  grid-column: 2 / 3;
+}
+
+.hl-sidebar-right
+{
+  grid-column: 3 / 4;
+}
+
+.hl-sidebar-footer
+{
+  grid-column: 1 / 4;
+}

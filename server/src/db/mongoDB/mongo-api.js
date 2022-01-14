@@ -5,12 +5,10 @@ export default async function mongoAPIWrapper()
   const { mdb } = await mongoClient(); 
 
   const mdbFindDocumentsByField = async ({ collectionName, fieldName, fieldValues }) =>
-  {
-   return mdb
+    mdb
       .collection(collectionName)
-      .find({ [fieldName]: { $in: fieldValues }})
+      .find({ [fieldName]: { $in: fieldValues } })
       .toArray();
-  };
 
   return{
     detailLists: async approachIds =>{
@@ -33,7 +31,7 @@ export default async function mongoAPIWrapper()
 
           const { explanations, notes, warnings } = approachDoc;
 
-          const approachDetails = []
+          const approachDetails = [];
 
           if (explanations) 
           {
@@ -71,7 +69,6 @@ export default async function mongoAPIWrapper()
             );  
           }
           return approachDetails;
-
         })
     },
     mutators:

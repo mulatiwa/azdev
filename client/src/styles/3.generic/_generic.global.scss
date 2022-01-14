@@ -1,0 +1,23 @@
+:root
+{
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after
+{
+ box-sizing: inherit;/*tells other elements and pseudo elements to inherit their box sizing*/
+}
+
+body, #root, .App
+{
+  margin: 0;
+}
+
+img, svg
+{
+  width: 100%;
+ max-width: 100%;
+}
+
