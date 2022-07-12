@@ -1,40 +1,44 @@
-# AZdev
+#AZdev Web App
 
-This example project came from the book GraphQL in Action.
-The project is intended to demonstrate how to create a modern web app using GraphQL
+##Project Description
+AZdev is short for "A to Z" of developer resources
 
-# App Description
-A graphQl based app for developers to assist them in performing their day to day tasks.
+AZdev is a searchable library of practical micro-documentation, errors, solutions and general tips, that software developers may perform on a day-to-day basis.
 
-The a - z of developer resources. A searchable library of practical micro-documentation, errors and solutions, and general tips for software developers on how to perform certain tasks.
-Its essentially a library of tasks that developers usually look up (e.g. stack overflow)
+It is a library of what developers usually look up, a quick way for them to find concise approaches to to certain software development tasks.
 
-##  TechStack
+The particular thing developers would like to do is known as a Task, while process of performing that Task is known as a Approach.
+A task can have multiple approaches and an approach belongs to a task
 
-Backend:
-  - GraphQL
-  - MongoDb
-  - PostgreSQL
+Anyone can browse  AZdev for tasks & approaches
+Logged-in users can add new Tasks and Approaches as well as up-vote or down-vote approaches
+The main entries for both tasks & approaches and user records are stored in PostgreSQL, while extra data elements like explanations, warnings and general notes will be stored in Mongo DB
 
-Frontend:
-  - React
+The project is intended for demo purposes only so as to demonstrate the ability to perform certain GQL specific abilities  and is not a production ready web app.
 
-##  Pre-requisites
-  - Mongodb (at least version 4) / Create an Atlas Cluster
-  - Mongodb nodejs driver (at least version 4)
-  - Node JS (at least version 14) 
-  - PostgreSQL (at least version 14) 
+The project is from the book GraphQl in action by Samer Buna
 
-##  Instructions
-Create a .env (Server) file with the following variables:
-  - HOST = localhost
-  - API_PORT = 3000
-  - MONGODB_PORT = 27017
-  - PG_USER = 
-  - PG_DB = azdev
-  - PG_PWD = 
-  - PG_PORT = 5432
-Create a .env (Client) file with the following variables:
-  - DEV_HOST = localhost
-  - SERVER = 3000
-  - CLIENT = 4000
+##Purpose
+The purpose of the project is to demonstrate the ability to:
+  - Designing SDL  & object-based schemas in accordance with the envisioned UI
+  - Designing database models
+  - Create a data-API using GraphQL
+  - Implementing Schema resolvers
+  - Generating SDl from object-based schemas
+  - Connect to multiple database storage services
+  - Handling data response errors
+  - Resolve relations
+  - Understanding the n + 1 query problem
+  - Data-loading optimizations with data loader
+  - Implementing Mutations
+  - Implementing basic login/logout functionality
+  - Using GQL APIs without a client library
+  - Using GQL APIs with a client library (Apollo-client)
+  - Implementing Subscriptions
+
+##TechStack
+  - Front-end: HTML, CSS, JS (ES6+), React
+  - backend-end: Node JS, GQL
+  - Databases: Mongo DB(document database service for dynamic data), PostgreSQl (relational database service for transactional data)
+
+##Instructions
